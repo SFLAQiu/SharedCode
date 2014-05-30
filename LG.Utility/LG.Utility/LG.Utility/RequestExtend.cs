@@ -28,6 +28,31 @@ namespace LG.Utility {
             if (string.IsNullOrEmpty(str)) return "";
             return str;
         }
+
+        /// <summary>
+        /// 获取Request.QueryString的值
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string GetQ(this HttpRequestBase request, string key) {
+            string str = request.QueryString[key];
+            if (string.IsNullOrEmpty(str)) return "";
+            return str;
+        }
+        /// <summary>
+        /// 获取Request.Form的值
+        /// </summary>
+        /// <param name="request"></param>
+        /// <param name="key"></param>
+        /// <returns></returns>
+        public static string GetF(this HttpRequestBase request, string key) {
+            string str = request.Form[key];
+            if (string.IsNullOrEmpty(str)) return "";
+            return str;
+        }
+
+        
         /// <summary>
         /// 根据Get请求是否有传callBack参数，返回跨域访问的callBack(..)格式字符串
         /// </summary>

@@ -41,7 +41,7 @@ namespace SharedHelp.Net40 {
         /// <param name="args"></param>
         /// <returns></returns>
         public static string FormatStr(this string str, params object[] args) {
-            if(string.IsNullOrEmpty(str))return "";
+            if (string.IsNullOrEmpty(str)) return "";
             return string.Format(str, args);
         }
         #endregion

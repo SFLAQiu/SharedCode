@@ -33,7 +33,14 @@ namespace LG.Utility {
         public static bool IsNullOrEmpty(this string str) {
             return string.IsNullOrEmpty(str);
         }
-
+        /// <summary>
+        /// 指示指定的字符串是 null、空还是仅由空白字符组成。
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsNullOrWhiteSpace(this string str) {
+            return string.IsNullOrWhiteSpace(str);
+        }
         /// <summary>
         /// 复合格式字符串,{0},{2}...
         /// </summary>
@@ -43,6 +50,14 @@ namespace LG.Utility {
         public static string FormatStr(this string str, params object[] args) {
             if(string.IsNullOrEmpty(str))return "";
             return string.Format(str, args);
+        }
+        /// <summary>
+        ///  根据Get请求是否有传callBack参数，返回跨域访问的callBack(..)格式字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string GetJsonCallBackStr(this string str) {
+            return RequestExtend.GetCallBackStr(str);
         }
         #endregion
         #region "Serialize"
