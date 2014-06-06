@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeExtend.cs" />
     <Compile Include="MvcHtmlStringExtend.cs" />
     <Compile Include="ObjectExtend.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="SiteLog.cs" />
     <Compile Include="StaticFunctions.cs" />
     <Compile Include="StringExtend.cs" />
+    <Compile Include="ModelExtend.cs" />
     <Compile Include="UPYun.cs" />
     <Compile Include="XMLExtend.cs" />
   </ItemGroup>
