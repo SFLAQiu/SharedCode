@@ -21,6 +21,7 @@ namespace LG.Utility {
             var row = dt.Rows[rowNum];
             T t = new T();
             foreach(var itemPro in proArrs) {
+                if(!dt.Columns.Contains(itemPro.Name)) continue;
                 var cValue = row[itemPro.Name];
                 if(cValue == null) continue;
                 try {
@@ -42,6 +43,7 @@ namespace LG.Utility {
             if(proArrs == null || proArrs.Count() <= 0) return default(T);
             T t = new T();
             foreach(var itemPro in proArrs) {
+                if(dr.GetOrdinal(itemPro.Name) <= -1) continue;
                 var cValue = dr[itemPro.Name];
                 if(cValue == null) continue;
                 try {

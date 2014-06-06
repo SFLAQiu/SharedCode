@@ -18,10 +18,10 @@ namespace LG.Utility {
         /// <returns></returns>
         public static int GetInt(this object obj, int defaultValue = default(int), bool isThrowException = false) {
             try {
-                if (obj == null) return defaultValue;
+                if(obj == null) return defaultValue;
                 return Convert.ToInt32(obj);
-            } catch (Exception ex) {
-                if (isThrowException) {
+            } catch(Exception ex) {
+                if(isThrowException) {
                     throw ex;
                 } else {
                     return defaultValue;
@@ -37,10 +37,10 @@ namespace LG.Utility {
         /// <returns></returns>
         public static long GetLong(this object obj, long defaultValue = default(long), bool isThrowException = false) {
             try {
-                if (obj == null) return defaultValue;
+                if(obj == null) return defaultValue;
                 return Convert.ToInt64(obj);
-            } catch (Exception ex) {
-                if (isThrowException) {
+            } catch(Exception ex) {
+                if(isThrowException) {
                     throw ex;
                 } else {
                     return defaultValue;
@@ -54,8 +54,37 @@ namespace LG.Utility {
         /// <param name="defaultValue">默认值</param>
         /// <returns></returns>
         public static string GetString(this object obj, string defaultValue = default(string)) {
-            if (obj == null) return defaultValue;
+            if(obj == null) return defaultValue;
             return Convert.ToString(obj);
+        }
+        /// <summary>
+        /// 转为时间类型,并传入默认值,如果为空或者转化失败的话,将返回默认值
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <param name="defaultValue"></param>
+        /// <returns></returns>
+        public static DateTime GetDateTime(this object obj, DateTime defaultValue) {
+            var timeStr = obj.GetString("");
+            if(timeStr.IsNullOrWhiteSpace()) return defaultValue;
+            try {
+                return DateTime.Parse(timeStr);
+            } catch {
+                return defaultValue;
+            }
+        }
+        /// <summary>
+        /// 转为时间类型,如果转化失败,将返回null
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static DateTime? GetDateTime(this object obj) {
+            var timeStr = obj.GetString("");
+            if(timeStr.IsNullOrWhiteSpace()) return null;
+            try {
+                return DateTime.Parse(timeStr);
+            } catch {
+                return null;
+            }
         }
         #endregion
         #region "对象格式化"
@@ -67,7 +96,7 @@ namespace LG.Utility {
         public static string SerializeToString(this object obj) {
             IFormatter formatter = new BinaryFormatter();
             string result = string.Empty;
-            using (MemoryStream stream = new MemoryStream()) {
+            using(MemoryStream stream = new MemoryStream()) {
                 formatter.Serialize(stream, obj);
 
                 byte[] byt = new byte[stream.Length];

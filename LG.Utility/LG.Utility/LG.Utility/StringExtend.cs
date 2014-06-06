@@ -34,6 +34,14 @@ namespace LG.Utility {
             return string.IsNullOrEmpty(str);
         }
         /// <summary>
+        /// System.String 对象是 System.String.Empty 字符串。
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsEmpty(this string str) {
+            return str == string.Empty;
+        }
+        /// <summary>
         /// 指示指定的字符串是 null、空还是仅由空白字符组成。
         /// </summary>
         /// <param name="str"></param>
