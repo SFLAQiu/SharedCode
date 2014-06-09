@@ -1,0 +1,11 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Data;
+using System.Reflection;
+
+namespace LG.Utility {
+    public static class PublicExtend {
+    }
+}
