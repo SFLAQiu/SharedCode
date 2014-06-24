@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace LG.Utility {
     public static class StringExtend {
@@ -42,6 +43,25 @@ namespace LG.Utility {
             return str == string.Empty;
         }
         /// <summary>
+        /// System.String 对象不是 System.String.Empty 字符串。
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsNotEmpty(this string str) {
+            return !str.IsEmpty();
+        }
+        /// <summary>
+        /// 前后去空格,如果为null返回string.Empty
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string TrimEx(this string str) {
+            if (string.IsNullOrEmpty(str))
+                return string.Empty;
+            else
+                return str.Trim();
+        }
+        /// <summary>
         /// 指示指定的字符串是 null、空还是仅由空白字符组成。
         /// </summary>
         /// <param name="str"></param>
@@ -66,6 +86,42 @@ namespace LG.Utility {
         /// <returns></returns>
         public static string GetJsonCallBackStr(this string str) {
             return RequestExtend.GetCallBackStr(str);
+        }
+        /// <summary>
+        /// 获取URL字符串域名(支持获取一级域名或者完整域名)
+        /// </summary>
+        /// <param name="url"></param>
+        /// <param name="needFirstHost"></param>
+        /// <returns></returns>
+        public static string GetUrlHost(this string url,bool needFirstHost=false) {
+            if (url.IsNullOrWhiteSpace()) return string.Empty;
+            url= url.ToLower();
+            //这里做域名的解析
+            var re = new Regex(@"^http:\/\/([^\/]+)\/.*?$");
+            if (!re.IsMatch(url)) return string.Empty;
+            var host = re.Replace(url, "$1");
+            if(!needFirstHost) return host;
+            //下面进行以及域名的匹配
+            if(host.IsNullOrWhiteSpace()) return host;
+            var arrs = host.Split('.');
+            if(arrs == null || arrs.Count() <= 0) return string.Empty;
+            var allLength=arrs.Length;
+            if(allLength < 3) return string.Empty;
+            var hostSource = arrs[allLength - 1];
+            var hostName = arrs[allLength - 2];
+            return hostName + "." + hostSource;
+        }
+        /// <summary>
+        /// 正则替换
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="pattern">要匹配的正则表达式模式。</param>
+        /// <param name="replacement">替换字符串。</param>
+        /// <returns></returns>.
+        /// 
+        public static string RegexReplace(this string str, string pattern, string replacement) {
+            if (str.IsNullOrWhiteSpace()) return str;
+            return Regex.Replace(str, pattern, replacement);
         }
         #endregion
         #region "Serialize"

@@ -37,13 +37,15 @@ namespace LG.Utility {
         /// <typeparam name="T"></typeparam>
         /// <param name="dr"></param>
         /// <returns></returns>
-        public static T GetModel<T>(this IDataReader dr) where T : new() {
+        private static T GetModelByIDataReader<T>(this IDataReader dr) where T : new() {
             if (dr == null) return default(T);
             var proArrs = typeof(T).GetProperties();
             if(proArrs == null || proArrs.Count() <= 0) return default(T);
+            var drNames = new List<string>();
+            for (int i = 0; i < dr.FieldCount; i++) drNames.Add(dr.GetName(i));
             T t = new T();
             foreach(var itemPro in proArrs) {
-                if(dr.GetOrdinal(itemPro.Name) <= -1) continue;
+                if (!drNames.Exists(d => d == itemPro.Name)) continue;
                 var cValue = dr[itemPro.Name];
                 if(cValue == null) continue;
                 try {
@@ -59,11 +61,24 @@ namespace LG.Utility {
         /// <typeparam name="T"></typeparam>
         /// <param name="dr"></param>
         /// <returns></returns>
+        public static T GetModel<T>(this IDataReader dr) where T : new() {
+            if (dr == null) return default(T);
+            while (dr.Read()) {
+                return dr.GetModelByIDataReader<T>();
+            }
+            return default(T);
+        }
+        /// <summary>
+        /// 根据IDataReader 对象，绑定DataReader行数据值绑定到实体类属性值集合
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dr"></param>
+        /// <returns></returns>
         public static List<T> GetModels<T>(this IDataReader dr) where T : new() {
             List<T> lis = new List<T>();
             if(dr == null) return null;
             while(dr.Read()) {
-                lis.Add(dr.GetModel<T>());
+                lis.Add(dr.GetModelByIDataReader<T>());
             }
             return lis;
         }
