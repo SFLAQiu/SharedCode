@@ -22,11 +22,16 @@ namespace LG.Utility {
             T t = new T();
             foreach(var itemPro in proArrs) {
                 if(!dt.Columns.Contains(itemPro.Name)) continue;
+                if (!itemPro.CanWrite) continue;
                 var cValue = row[itemPro.Name];
                 if(cValue == null) continue;
                 try {
-                    object obj_val = Convert.ChangeType(cValue, itemPro.PropertyType);
-                    itemPro.SetValue(t, obj_val, null);
+                    var pType = GetPropertyType(itemPro.PropertyType);
+                    if (pType.IsEnum) {
+                        itemPro.SetValue(t, Enum.Parse(pType, cValue.ToString().Trim(), true), null);
+                    } else {
+                        itemPro.SetValue(t, Convert.ChangeType(cValue, itemPro.PropertyType), null);
+                    }
                 } catch { }
             }
             return t;
@@ -47,10 +52,15 @@ namespace LG.Utility {
             foreach(var itemPro in proArrs) {
                 if (!drNames.Exists(d => d == itemPro.Name)) continue;
                 var cValue = dr[itemPro.Name];
+                if (!itemPro.CanWrite) continue;
                 if(cValue == null) continue;
                 try {
-                    object obj_val = Convert.ChangeType(cValue, itemPro.PropertyType);
-                    itemPro.SetValue(t, obj_val, null);
+                    var pType = GetPropertyType(itemPro.PropertyType);
+                    if (pType.IsEnum) {
+                        itemPro.SetValue(t, Enum.Parse(pType, cValue.ToString().Trim(), true), null);
+                    } else {
+                        itemPro.SetValue(t, Convert.ChangeType(cValue, itemPro.PropertyType), null);
+                    }
                 } catch { }
             }
             return t;
@@ -94,6 +104,10 @@ namespace LG.Utility {
             for(int i = 0; i < dt.Rows.Count; i++) lis.Add(dt.GetModel<T>(rowNum:i));
             return lis;
         }
-       
+        private static Type GetPropertyType(Type pType) {
+            var gTypes = pType.GetGenericArguments();
+            if (gTypes.Length > 0) return gTypes[0];
+            return pType;
+        }
     }
 }

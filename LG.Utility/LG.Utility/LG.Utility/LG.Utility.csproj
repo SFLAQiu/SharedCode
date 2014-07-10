@@ -44,9 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CaCheSuperHelper.cs" />
     <Compile Include="DateTimeExtend.cs" />
+    <Compile Include="EnumHelper.cs" />
     <Compile Include="ExcelHelper.cs" />
     <Compile Include="HttpAccessHelper.cs" />
+    <Compile Include="LinqHelper.cs" />
     <Compile Include="MvcHtmlStringExtend.cs" />
     <Compile Include="ObjectExtend.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
