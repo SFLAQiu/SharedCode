@@ -37,7 +37,7 @@ namespace LG.Utility {
                 case DayOfWeek.Thursday: return prefixStr + "四";
                 case DayOfWeek.Friday: return prefixStr + "五";
                 case DayOfWeek.Saturday: return prefixStr + "六";
-                case DayOfWeek.Sunday: return prefixStr + "七";
+                case DayOfWeek.Sunday: return prefixStr + "日";
             }
             return "未知";
         }

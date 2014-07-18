@@ -119,5 +119,15 @@ namespace LG.Utility {
             return serializer.Serialize(obj);
         }
         #endregion
+        /// <summary>
+        ///串联对象数组的各个元素，其中在每个元素之间使用指定的分隔符。
+        /// </summary>
+        /// <param name="objs">数组对象</param>
+        /// <param name="separator">要用作分隔符的字符串</param>
+        /// <returns></returns>
+        public static string GetJoinStr(this object[] objs, string separator) {
+            if (objs == null) return string.Empty;
+            return string.Join(separator, objs);
+        }
     }
 }

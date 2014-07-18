@@ -15,13 +15,15 @@ namespace LG.Utility {
         /// <param name="PageSize">每页显示数</param>
         /// <param name="PageIndex">当前页码</param>
         /// <returns></returns>
-        public static IEnumerable<T> GetIenumberable<T>(IEnumerable<T> dataList, Func<T, bool> FunWhere, Func<T, string> FunOrder, int PageSize, int PageIndex) {
+        public static IEnumerable<T> GetIenumberable<T>(IEnumerable<T> dataList, Func<T, bool> FunWhere, Action<IEnumerable<T>> FunOrder, int PageSize, int PageIndex, out int dataCout) {
             //var rance = List.Where(FunWhere).OrderByDescending(FunOrder).Select(t => t).Skip((PageIndex - 1) * PageSize).Take(PageSize);
+            dataCout = 0;
             var getList = dataList;
             if (FunWhere != null) getList = getList.Where(FunWhere);
-            if (FunOrder != null) getList = getList.OrderByDescending(FunOrder);
+            dataCout = (getList != null ? getList.Count() : 0);
+            if (FunOrder != null) FunOrder.Invoke(dataList);//getList = getList.OrderByDescending(FunOrder);
             getList = getList.Select(t => t).Skip((PageIndex - 1) * PageSize).Take(PageSize);
-            return getList;
+            return getList; 
         }
     }
 }
