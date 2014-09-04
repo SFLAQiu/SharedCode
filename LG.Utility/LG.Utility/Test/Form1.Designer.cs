@@ -38,6 +38,9 @@
             this.button3 = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.txt_Str = new System.Windows.Forms.TextBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -189,11 +192,41 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Linq多字段分组";
             // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(608, 12);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(120, 23);
+            this.button4.TabIndex = 13;
+            this.button4.Text = "ToListSplit测试";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // txt_Str
+            // 
+            this.txt_Str.Location = new System.Drawing.Point(12, 200);
+            this.txt_Str.Name = "txt_Str";
+            this.txt_Str.Size = new System.Drawing.Size(181, 21);
+            this.txt_Str.TabIndex = 14;
+            // 
+            // button5
+            // 
+            this.button5.Location = new System.Drawing.Point(199, 198);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(78, 23);
+            this.button5.TabIndex = 15;
+            this.button5.Text = "中文转拼音";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(977, 245);
+            this.Controls.Add(this.button5);
+            this.Controls.Add(this.txt_Str);
+            this.Controls.Add(this.button4);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -205,6 +238,7 @@
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -225,6 +259,9 @@
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.ListBox listBox1;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TextBox txt_Str;
+        private System.Windows.Forms.Button button5;
     }
 }
 

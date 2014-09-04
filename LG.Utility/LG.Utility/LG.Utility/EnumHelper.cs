@@ -157,7 +157,7 @@ namespace LG.Utility {
         /// <returns></returns>
         public static T GetEnum<T>(this object enu) {
             try {
-                return (T)enu;
+                if (Enum.IsDefined(typeof(T), enu)) return (T)enu;
             } catch { }
             return default(T);
         }

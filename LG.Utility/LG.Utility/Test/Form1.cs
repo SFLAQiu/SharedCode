@@ -59,6 +59,24 @@ namespace Test {
                 this.listBox1.Items.Add("Code="+item.Code+",Msg="+item.Msg);
             }
         }
+        /// <summary>
+        /// ToListSplit测试
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button4_Click(object sender, EventArgs e) {
+            string str = "1,2,3,4,5,6";
+            var lis = str.ToSplitList<int>(',');
+            var a = lis;
+        }
+        /// <summary>
+        /// 拼音转中文
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button5_Click(object sender, EventArgs e) {
+            MessageBox.Show("拼音缩写=" + this.txt_Str.Text.GetPinyinCode());//"全拼=" + this.txt_Str.Text.GetPinyin() + ",=" + this.txt_Str.Text.GetShortPinyin() + 
+        }
 
     }
 }
