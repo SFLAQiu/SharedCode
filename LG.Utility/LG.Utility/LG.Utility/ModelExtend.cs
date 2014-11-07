@@ -36,6 +36,10 @@ namespace LG.Utility {
             }
             return t;
         }
+        public static T GetModel<T>(this DataSet ds, int rowNum = 0) where T : new() {
+            if (ds == null || ds.Tables[0] == null) return default(T);
+            return ds.Tables[0].GetModel<T>();
+        }
         /// <summary>
         /// 根据IDataReader 对象，绑定DataReader行数据值绑定到实体类属性值
         /// </summary>
@@ -103,6 +107,16 @@ namespace LG.Utility {
             if(dt == null || dt.Rows.Count <= 0) return null;
             for(int i = 0; i < dt.Rows.Count; i++) lis.Add(dt.GetModel<T>(rowNum:i));
             return lis;
+        }
+         /// <summary>
+        /// 更具DataTable 对象，绑定DataTable表所有行值绑定到实体类属性值集合
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public static List<T> GetModels<T>(this DataSet ds) where T : new() {
+            if (ds == null || ds.Tables[0] == null) return default(List<T>);
+            return ds.Tables[0].GetModels<T>();
         }
         private static Type GetPropertyType(Type pType) {
             var gTypes = pType.GetGenericArguments();

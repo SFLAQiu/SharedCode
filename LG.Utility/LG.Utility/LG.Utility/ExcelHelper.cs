@@ -35,7 +35,7 @@ namespace LG.Utility
         DataTable _dataSource;         
         string[] _titles = null; 
         string[] _fields = null; 
-        int _maxRecords = 1000; 
+        //int _maxRecords = 1000; 
  
         #endregion 
  
@@ -44,10 +44,10 @@ namespace LG.Utility
         /// <summary> 
         /// 限制输出到 Excel 的最大记录数。超出则抛出异常 
         /// </summary> 
-        public int MaxRecords { 
-            set { _maxRecords = value; } 
-            get { return _maxRecords; } 
-        } 
+        //public int MaxRecords { 
+        //    set { _maxRecords = value; } 
+        //    get { return _maxRecords; } 
+        //} 
  
         /// <summary> 
         /// 输出到浏览器的 Excel 文件名 
@@ -153,9 +153,9 @@ namespace LG.Utility
  
             if (_fields == null && _titles != null && _titles.Length != _dataSource.Columns.Count)  
                 throw new Exception("_titles.Length != _dataSource.Columns.Count"); 
-             
-            if (_dataSource.Rows.Count > _maxRecords) 
-                throw new Exception("导出数据条数超过限制。请设置 MaxRecords 属性以定义导出的最多记录数。"); 
+            //去掉限制
+            //if (_dataSource.Rows.Count > _maxRecords) 
+            //    throw new Exception("导出数据条数超过限制。请设置 MaxRecords 属性以定义导出的最多记录数。"); 
  
             DataGrid dg = new DataGrid(); 
             dg.DataSource = _dataSource; 

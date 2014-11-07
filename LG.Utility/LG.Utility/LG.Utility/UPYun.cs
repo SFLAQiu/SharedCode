@@ -69,6 +69,17 @@ namespace LG.Utility
             Hashtable headers = new Hashtable();
             return upyun.reloadFileWorker("POST", imageUrl, headers, out Msg);
         }
+        /// <summary>
+        /// 缓存刷新
+        /// </summary>
+        /// <param name="imageUrl">每个url都必须以为http开头，否则不会加入刷新队列</param>
+        /// <param name="location">位置（如：/a/b/c.jpg）</param>
+        public static bool ReloadloadIamgeV2(string imageUrl, out string Msg) {
+            Msg = "";
+            UpYun upyun = new UpYun(_spaceName, _operator, _password);
+            Hashtable headers = new Hashtable();
+            return upyun.reloadFileWorkerV2("POST", imageUrl, headers, out Msg);
+        }
     }
 
 
@@ -262,6 +273,17 @@ namespace LG.Utility
 
             return response;
         }
+        /// <summary>
+        /// 用于刷新缓存
+        /// </summary>
+        /// <param name="method"></param>
+        /// <param name="Url">要刷新缓存的url（每个url都必须以为http开头，否则不会加入刷新队列）</param>
+        /// <param name="postData"></param>
+        /// <param name="headers"></param>
+        /// <returns></returns>
+        public bool reloadFileWorkerV2(string method, string url, Hashtable headers, out string Msg) {
+            return reloadFileWorker(method, url, headers,out Msg,requestTimeOut:10000);
+        }
 
         /// <summary>
         /// 用于刷新缓存
@@ -271,14 +293,14 @@ namespace LG.Utility
         /// <param name="postData"></param>
         /// <param name="headers"></param>
         /// <returns></returns>
-        public bool reloadFileWorker(string method, string url, Hashtable headers, out string Msg)
+        public bool reloadFileWorker(string method, string url, Hashtable headers, out string Msg,int requestTimeOut=3000)
         {
             Msg = "";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(this.reloadFile_api_domain);
 
             request.Method = method;
-            request.Timeout = 3000;
+            request.Timeout = requestTimeOut;
             request.AllowAutoRedirect = true;
 
             // 签名
@@ -295,6 +317,8 @@ namespace LG.Utility
                 using (StreamWriter streamWriter = new StreamWriter(request.GetRequestStream()))
                 {
                     streamWriter.Write("purge=" + HttpUtility.UrlEncode(url));
+                    streamWriter.Close();
+                    streamWriter.Dispose(); 
                 }
             }
 
@@ -304,6 +328,7 @@ namespace LG.Utility
                 response = (HttpWebResponse)request.GetResponse();
                 if (response.StatusCode == HttpStatusCode.OK)
                 {
+                    response.Close();
                     return true;
                 }
                 else
@@ -311,7 +336,10 @@ namespace LG.Utility
                     using (StreamReader responseReader = new StreamReader(request.GetResponse().GetResponseStream()))
                     {
                         Msg = responseReader.ReadToEnd();
+                        responseReader.Close();
+                        responseReader.Dispose();
                     }
+                    response.Close();
                     return false;
                 }
             }

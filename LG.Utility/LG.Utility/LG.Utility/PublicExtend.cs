@@ -49,8 +49,17 @@ namespace LG.Utility {
         /// <returns></returns>
         public static string ToJoinStr<T>(this List<T> datas, string separator) where T : struct {
             if (datas == null || datas.Count <= 0) return string.Empty;
-            foreach (var item in datas) return string.Join(separator, item.ToString());
-            return string.Empty;
+            return string.Join(separator, datas);
+        }
+        /// <summary>
+        /// 获取随机种子码
+        /// </summary>
+        /// <returns></returns>
+        public static int GetRandSeed() {
+            byte[] bytes = new byte[8];
+            System.Security.Cryptography.RNGCryptoServiceProvider rng = new System.Security.Cryptography.RNGCryptoServiceProvider();
+            rng.GetBytes(bytes);
+            return BitConverter.ToInt32(bytes, 0);
         }
 
     }

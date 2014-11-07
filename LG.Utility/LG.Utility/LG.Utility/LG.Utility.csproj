@@ -51,6 +51,7 @@
     <Compile Include="HttpAccessHelper.cs" />
     <Compile Include="LinqHelper.cs" />
     <Compile Include="MvcHtmlStringExtend.cs" />
+    <Compile Include="NameValue.cs" />
     <Compile Include="ObjectExtend.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PublicExtend.cs" />
