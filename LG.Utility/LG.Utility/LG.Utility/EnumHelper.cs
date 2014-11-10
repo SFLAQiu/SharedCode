@@ -100,6 +100,7 @@ namespace LG.Utility {
         /// <param name="attributeType"></param> 
         /// <returns>返回枚举,否则返回null</returns> 
         public static object GetCustomAttribute(this Enum source, Type sourceType, Type attributeType) {
+            if (!Enum.IsDefined(sourceType, source)) return null;
             string sourceName = Enum.GetName(sourceType, source);
             FieldInfo field = sourceType.GetField(sourceName);
             object[] attributes = field.GetCustomAttributes(attributeType, false);

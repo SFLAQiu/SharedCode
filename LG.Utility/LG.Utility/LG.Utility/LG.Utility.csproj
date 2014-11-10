@@ -32,6 +32,9 @@
     <DocumentationFile>bin\Release\LG.Utility.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="ICSharpCode.SharpZipLib">
+      <HintPath>..\Lib_Ref\ICSharpCode.SharpZipLib.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -60,10 +63,12 @@
     <Compile Include="SQLPager.cs" />
     <Compile Include="SQLSuperPager.cs" />
     <Compile Include="StaticFunctions.cs" />
+    <Compile Include="StreamExtend.cs" />
     <Compile Include="StringExtend.cs" />
     <Compile Include="ModelExtend.cs" />
     <Compile Include="UPYun.cs" />
     <Compile Include="XMLExtend.cs" />
+    <Compile Include="ZIPHelper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
