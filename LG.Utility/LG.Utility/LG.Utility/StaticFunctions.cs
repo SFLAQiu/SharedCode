@@ -208,7 +208,7 @@ namespace LG.Utility {
         /// <param name="savePath">保存路径</param>
         /// <param name="saveFileName">保存图片名，不包括拓展名</param>
         /// <returns></returns>
-        public static bool SaveFile(string imgUrl, string savePath, string saveFileName) {
+        public static bool SaveFile(string imgUrl, string savePath, string saveFileName,int width=0,int height=0) {
             if (imgUrl.IsNullOrWhiteSpace()) return false;
             if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
             try {
@@ -228,6 +228,12 @@ namespace LG.Utility {
                     string saveFilePath = savePath + saveFileName + extension;
                     var newImg = System.Drawing.Image.FromStream(ms);
                     if (newImg == null) return false;
+                    if (width > 0 && newImg.Width>width) { 
+                        var newHeight=height;
+                        var ratio = (double)(width / (newImg.Width*1.0));
+                        if (newHeight <= 0) newHeight = (ratio * newImg.Height).GetInt(0,false);
+                        newImg = newImg.GetThumbnailImage(width, newHeight,null,IntPtr.Zero);
+                    }
                     newImg.Save(saveFilePath);
                     webClient.Dispose();
                 }

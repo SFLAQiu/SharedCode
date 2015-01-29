@@ -153,6 +153,7 @@ namespace LG.Utility {
         /// 
         /// </summary>
         protected Regex _replaceRx = new System.Text.RegularExpressions.Regex("", RegexOptions.Singleline | RegexOptions.IgnoreCase);
+        protected bool _tableNameIsSubquery = false;
 
         /// <summary>
         /// 初始化
@@ -162,13 +163,14 @@ namespace LG.Utility {
         /// <param name="primaryKey">主表主键名</param>
         /// <param name="fromSqlApp">多表连接的语句段,将放在"from tableName 别名 "的后方,无可为空</param>
         /// <param name="whereSql">条件语句,无需where关键字</param>
-        public SQLPager(string tableName, string aliasTName, string primaryKey, string fromSqlApp, string whereSql) {
+        /// <param name="whereSql">tableName填写的是否是子查询，而不是表明</param>
+        public SQLPager(string tableName, string aliasTName, string primaryKey, string fromSqlApp, string whereSql, bool tableNameIsSubquery=false) {
             _tableName = (string.IsNullOrEmpty(tableName) ? "" : tableName).Trim();
             _aliasTName = (string.IsNullOrEmpty(aliasTName) ? "" : aliasTName).Trim();
             _primaryKey = (string.IsNullOrEmpty(primaryKey) ? "" : primaryKey).Trim();
             _fromSqlApp = (string.IsNullOrEmpty(fromSqlApp) ? "" : fromSqlApp).Trim();
             _whereSql = (string.IsNullOrEmpty(whereSql) ? "" : whereSql).Trim();
-
+            _tableNameIsSubquery = tableNameIsSubquery;
             if (string.IsNullOrEmpty(_aliasTName)) _aliasTName = _tableName;
 
             //防止多余的where关键字
@@ -182,7 +184,7 @@ namespace LG.Utility {
         /// <returns></returns>
         public string GetCountSQL() {
             return @"
-select count(*) from [" + _tableName + @"] " + _aliasTName + @"
+select count(*) from " + (_tableNameIsSubquery ? "" : "[") + _tableName + (_tableNameIsSubquery ? "" : "] ") + _aliasTName + @"
 " + _fromSqlApp + @"
 " + (string.IsNullOrEmpty(_whereSql) ? "" : "where " + _whereSql) + @"
 ";
@@ -193,8 +195,9 @@ select count(*) from [" + _tableName + @"] " + _aliasTName + @"
         /// </summary>
         /// <returns></returns>
         public string GetSumSQL(string RMB) {
+
             return @"
-select sum(" + RMB + ") from [" + _tableName + @"] " + _aliasTName + @"
+select sum(" + RMB + ") from " + (_tableNameIsSubquery ? "" : "[") + _tableName + (_tableNameIsSubquery ? "" : "] ") + _aliasTName + @"
 " + _fromSqlApp + @"
 " + (string.IsNullOrEmpty(_whereSql) ? "" : "where " + _whereSql) + @"
 ";
@@ -270,15 +273,15 @@ select sum(" + RMB + ") from [" + _tableName + @"] " + _aliasTName + @"
 
             return @"
 select " + selectColumns + @"
-from [" + _tableName + @"] " + _aliasTName + @"
+from " + (_tableNameIsSubquery ? "" : "[") + _tableName + (_tableNameIsSubquery ? " " : "] ") + _aliasTName + @"
 " + _fromSqlApp + @"
 where " + _aliasTName + @".[" + _primaryKey + @"] in(
     select top " + top2 + @" " + _aliasTName + @".[" + _primaryKey + @"]
-    from [" + _tableName + @"] " + _aliasTName + @"
+    from " + (_tableNameIsSubquery ? "" : "[") + _tableName + (_tableNameIsSubquery ? " " : "] ") + _aliasTName + @"
     " + _fromSqlApp + @"
     where " + _aliasTName + @".[" + _primaryKey + @"] in(
         select top " + top1 + @" " + _aliasTName + @".[" + _primaryKey + @"]
-        from [" + _tableName + @"] " + _aliasTName + @"
+        from " + (_tableNameIsSubquery ? "" : "[") + _tableName + (_tableNameIsSubquery ? " " : "] ") + _aliasTName + @"
         " + _fromSqlApp + @"
         " + (string.IsNullOrEmpty(_whereSql) ? "" : "where " + _whereSql) + @"
         order by " + _orderBySql + @"
@@ -343,15 +346,15 @@ where " + _aliasTName + @".[" + _primaryKey + @"] in(
 
             return @"
 select " + selectColumns + @"
-from [" + _tableName + @"] " + _aliasTName + @"
+from " + (_tableNameIsSubquery ? "" : "[") + _tableName + (_tableNameIsSubquery ? " " : "] ") + _aliasTName + @"
 " + _fromSqlApp + @"
 where " + _aliasTName + @".[" + _primaryKey + @"] in(
     select top " + top2 + @" " + _aliasTName + @".[" + _primaryKey + @"]
-    from [" + _tableName + @"] " + _aliasTName + @"
+    from " + (_tableNameIsSubquery ? "" : "[") + _tableName + (_tableNameIsSubquery ? " " : "] ") + _aliasTName + @"
     " + _fromSqlApp + @"
     where " + _aliasTName + @".[" + _primaryKey + @"] in(
         select top " + top1 + @" " + _aliasTName + @".[" + _primaryKey + @"]
-        from [" + _tableName + @"] " + _aliasTName + @"
+        from " + (_tableNameIsSubquery ? "" : "[") + _tableName + (_tableNameIsSubquery ? " " : "] ") + _aliasTName + @"
         " + _fromSqlApp + @"
         " + (string.IsNullOrEmpty(_whereSql) ? "" : "where " + _whereSql) + @"
         order by " + _orderBySql + @"

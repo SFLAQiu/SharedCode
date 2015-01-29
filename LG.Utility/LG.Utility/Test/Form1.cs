@@ -77,6 +77,26 @@ namespace Test {
         private void button5_Click(object sender, EventArgs e) {
             MessageBox.Show("拼音缩写=" + this.txt_Str.Text.GetPinyinCode());//"全拼=" + this.txt_Str.Text.GetPinyin() + ",=" + this.txt_Str.Text.GetShortPinyin() + 
         }
+        /// <summary>
+        /// 转半角
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button6_Click(object sender, EventArgs e) {
+            MessageBox.Show(this.txt_qb.Text.ToDBC());
+        }
+        /// <summary>
+        /// 转全角
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void button7_Click(object sender, EventArgs e) {
+            MessageBox.Show(Test(d => d == this.txt_qb.Text, "2").ToString());
+           // MessageBox.Show(this.txt_qb.Text.ToSBC());
+        }
+        public bool Test(Func<string,bool> fc,string str) {
+            return fc.Invoke(str);
+        }
 
     }
 }

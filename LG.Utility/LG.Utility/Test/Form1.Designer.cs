@@ -23,45 +23,75 @@
         /// 使用代码编辑器修改此方法的内容。
         /// </summary>
         private void InitializeComponent() {
-            this.button1 = new System.Windows.Forms.Button();
-            this.txt_URL = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.lb_URLHost = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
+            this.txt_URL = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.txt_RequestURL = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.button2 = new System.Windows.Forms.Button();
-            this.lb_URLResponse = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.button3 = new System.Windows.Forms.Button();
+            this.lb_URLResponse = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txt_RequestURL = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.listBox1 = new System.Windows.Forms.ListBox();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.button4 = new System.Windows.Forms.Button();
             this.txt_Str = new System.Windows.Forms.TextBox();
             this.button5 = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.txt_qb = new System.Windows.Forms.TextBox();
+            this.button6 = new System.Windows.Forms.Button();
+            this.button7 = new System.Windows.Forms.Button();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
-            // button1
+            // tabControl1
             // 
-            this.button1.Location = new System.Drawing.Point(259, 20);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(63, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "获取域名";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Location = new System.Drawing.Point(12, 3);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(953, 592);
+            this.tabControl1.TabIndex = 17;
             // 
-            // txt_URL
+            // tabPage1
             // 
-            this.txt_URL.Location = new System.Drawing.Point(65, 20);
-            this.txt_URL.Name = "txt_URL";
-            this.txt_URL.Size = new System.Drawing.Size(181, 21);
-            this.txt_URL.TabIndex = 1;
+            this.tabPage1.Controls.Add(this.groupBox3);
+            this.tabPage1.Controls.Add(this.groupBox4);
+            this.tabPage1.Controls.Add(this.groupBox1);
+            this.tabPage1.Controls.Add(this.button5);
+            this.tabPage1.Controls.Add(this.groupBox2);
+            this.tabPage1.Controls.Add(this.txt_Str);
+            this.tabPage1.Controls.Add(this.button4);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(945, 566);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(945, 421);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // label1
             // 
@@ -81,6 +111,16 @@
             this.lb_URLHost.TabIndex = 4;
             this.lb_URLHost.Text = "。。。。";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(259, 20);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(63, 23);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "获取域名";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -90,6 +130,13 @@
             this.label3.TabIndex = 5;
             this.label3.Text = "结果：";
             // 
+            // txt_URL
+            // 
+            this.txt_URL.Location = new System.Drawing.Point(65, 20);
+            this.txt_URL.Name = "txt_URL";
+            this.txt_URL.Size = new System.Drawing.Size(181, 21);
+            this.txt_URL.TabIndex = 1;
+            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.txt_URL);
@@ -97,42 +144,30 @@
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.lb_URLHost);
             this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(10, 16);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(356, 75);
             this.groupBox1.TabIndex = 6;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "域名获取测试";
             // 
-            // groupBox2
+            // label5
             // 
-            this.groupBox2.Controls.Add(this.txt_RequestURL);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Controls.Add(this.button2);
-            this.groupBox2.Controls.Add(this.lb_URLResponse);
-            this.groupBox2.Controls.Add(this.label5);
-            this.groupBox2.Location = new System.Drawing.Point(12, 93);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(356, 75);
-            this.groupBox2.TabIndex = 7;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "URL请求";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(25, 27);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 12);
+            this.label5.TabIndex = 2;
+            this.label5.Text = "URL：";
             // 
-            // txt_RequestURL
+            // lb_URLResponse
             // 
-            this.txt_RequestURL.Location = new System.Drawing.Point(65, 20);
-            this.txt_RequestURL.Name = "txt_RequestURL";
-            this.txt_RequestURL.Size = new System.Drawing.Size(181, 21);
-            this.txt_RequestURL.TabIndex = 1;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(19, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(41, 12);
-            this.label2.TabIndex = 5;
-            this.label2.Text = "结果：";
+            this.lb_URLResponse.AutoSize = true;
+            this.lb_URLResponse.Location = new System.Drawing.Point(70, 46);
+            this.lb_URLResponse.Name = "lb_URLResponse";
+            this.lb_URLResponse.Size = new System.Drawing.Size(53, 12);
+            this.lb_URLResponse.TabIndex = 4;
+            this.lb_URLResponse.Text = "。。。。";
             // 
             // button2
             // 
@@ -144,23 +179,44 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
-            // lb_URLResponse
+            // label2
             // 
-            this.lb_URLResponse.AutoSize = true;
-            this.lb_URLResponse.Location = new System.Drawing.Point(70, 46);
-            this.lb_URLResponse.Name = "lb_URLResponse";
-            this.lb_URLResponse.Size = new System.Drawing.Size(53, 12);
-            this.lb_URLResponse.TabIndex = 4;
-            this.lb_URLResponse.Text = "。。。。";
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(19, 46);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(41, 12);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "结果：";
             // 
-            // label5
+            // txt_RequestURL
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(25, 27);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 12);
-            this.label5.TabIndex = 2;
-            this.label5.Text = "URL：";
+            this.txt_RequestURL.Location = new System.Drawing.Point(65, 20);
+            this.txt_RequestURL.Name = "txt_RequestURL";
+            this.txt_RequestURL.Size = new System.Drawing.Size(181, 21);
+            this.txt_RequestURL.TabIndex = 1;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.txt_RequestURL);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.button2);
+            this.groupBox2.Controls.Add(this.lb_URLResponse);
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Location = new System.Drawing.Point(10, 97);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(356, 75);
+            this.groupBox2.TabIndex = 7;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "URL请求";
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.ItemHeight = 12;
+            this.listBox1.Location = new System.Drawing.Point(6, 49);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(213, 76);
+            this.listBox1.TabIndex = 9;
             // 
             // button3
             // 
@@ -172,20 +228,11 @@
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
-            // listBox1
-            // 
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.ItemHeight = 12;
-            this.listBox1.Location = new System.Drawing.Point(6, 49);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(213, 76);
-            this.listBox1.TabIndex = 9;
-            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.button3);
             this.groupBox3.Controls.Add(this.listBox1);
-            this.groupBox3.Location = new System.Drawing.Point(374, 12);
+            this.groupBox3.Location = new System.Drawing.Point(372, 16);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(228, 156);
             this.groupBox3.TabIndex = 10;
@@ -194,7 +241,7 @@
             // 
             // button4
             // 
-            this.button4.Location = new System.Drawing.Point(608, 12);
+            this.button4.Location = new System.Drawing.Point(606, 16);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(120, 23);
             this.button4.TabIndex = 13;
@@ -204,14 +251,14 @@
             // 
             // txt_Str
             // 
-            this.txt_Str.Location = new System.Drawing.Point(12, 200);
+            this.txt_Str.Location = new System.Drawing.Point(10, 204);
             this.txt_Str.Name = "txt_Str";
             this.txt_Str.Size = new System.Drawing.Size(181, 21);
             this.txt_Str.TabIndex = 14;
             // 
             // button5
             // 
-            this.button5.Location = new System.Drawing.Point(199, 198);
+            this.button5.Location = new System.Drawing.Point(197, 202);
             this.button5.Name = "button5";
             this.button5.Size = new System.Drawing.Size(78, 23);
             this.button5.TabIndex = 15;
@@ -219,49 +266,95 @@
             this.button5.UseVisualStyleBackColor = true;
             this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.button7);
+            this.groupBox4.Controls.Add(this.button6);
+            this.groupBox4.Controls.Add(this.txt_qb);
+            this.groupBox4.Location = new System.Drawing.Point(616, 45);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(291, 58);
+            this.groupBox4.TabIndex = 16;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "全角半角";
+            // 
+            // txt_qb
+            // 
+            this.txt_qb.Location = new System.Drawing.Point(6, 25);
+            this.txt_qb.Name = "txt_qb";
+            this.txt_qb.Size = new System.Drawing.Size(121, 21);
+            this.txt_qb.TabIndex = 2;
+            // 
+            // button6
+            // 
+            this.button6.Location = new System.Drawing.Point(133, 23);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(50, 23);
+            this.button6.TabIndex = 16;
+            this.button6.Text = "半角";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button6_Click);
+            // 
+            // button7
+            // 
+            this.button7.Location = new System.Drawing.Point(189, 23);
+            this.button7.Name = "button7";
+            this.button7.Size = new System.Drawing.Size(51, 23);
+            this.button7.TabIndex = 17;
+            this.button7.Text = "全角";
+            this.button7.UseVisualStyleBackColor = true;
+            this.button7.Click += new System.EventHandler(this.button7_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(977, 245);
-            this.Controls.Add(this.button5);
-            this.Controls.Add(this.txt_Str);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.groupBox3);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(977, 595);
+            this.Controls.Add(this.tabControl1);
             this.Name = "Form1";
             this.Text = "Form1";
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox3.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.TextBox txt_URL;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lb_URLHost;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button button6;
+        private System.Windows.Forms.TextBox txt_qb;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.TextBox txt_URL;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label lb_URLHost;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button5;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.TextBox txt_RequestURL;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label lb_URLResponse;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.Button button4;
         private System.Windows.Forms.TextBox txt_Str;
-        private System.Windows.Forms.Button button5;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TabPage tabPage2;
+
     }
 }
 

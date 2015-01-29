@@ -17,8 +17,8 @@ namespace LG.Utility {
         /// <param name="primaryKey">主表主键名</param>
         /// <param name="fromSqlApp">多表连接的语句段,将放在"from tableName 别名 "的后方,无可为空</param>
         /// <param name="whereSql">条件语句,无需where关键字</param>
-        public SQLSuperPager(string tableName, string aliasTName, string primaryKey, string fromSqlApp, string whereSql)
-            : base(tableName, aliasTName, primaryKey, fromSqlApp, whereSql) {
+        public SQLSuperPager(string tableName, string aliasTName, string primaryKey, string fromSqlApp, string whereSql,bool tableNameIsSubquery=false)
+            : base(tableName, aliasTName, primaryKey, fromSqlApp, whereSql,tableNameIsSubquery) {
         }
     }
 }

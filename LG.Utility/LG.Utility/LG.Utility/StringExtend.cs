@@ -514,7 +514,56 @@ namespace LG.Utility {
         public static string HtmlDecode(this string str) {
             return HttpUtility.HtmlDecode(str);
         }
-      
+
+        #endregion
+        #region "全角半角"
+        /// <summary>
+        /// 转全角(SBC case)
+        /// </summary>
+        /// <param name="input">任意字符串</param>
+        /// <returns>全角字符串</returns>
+        public static string ToSBC(this string input) {
+            char[] c = input.ToCharArray();
+            for (int i = 0; i < c.Length; i++) {
+                if (c[i] == 32) {
+                    c[i] = (char)12288;
+                    continue;
+                }
+                if (c[i] < 127)
+                    c[i] = (char)(c[i] + 65248);
+            }
+            return new string(c);
+        }
+        /// <summary>
+        /// 转半角(DBC case)
+        /// </summary>
+        /// <param name="input">任意字符串</param>
+        /// <returns>半角字符串</returns>
+        public static string ToDBC(this string input) {
+            char[] c = input.ToCharArray();
+            for (int i = 0; i < c.Length; i++) {
+                if (c[i] == 12288) {
+                    c[i] = (char)32;
+                    continue;
+                }
+                if (c[i] > 65280 && c[i] < 65375)
+                    c[i] = (char)(c[i] - 65248);
+            }
+            Random r = new Random();
+            return new string(c);
+        }
+        #endregion
+        #region
+        /// <summary>
+        /// 判断吗是否是数字字符串
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsNumber(this string str) {
+            Regex rg = new Regex(@"^\d+$", RegexOptions.Singleline);
+            var match = rg.Match(str);
+            if (match != null && match.Length>0) return true;
+            return false;
+        }
         #endregion
     }
 }

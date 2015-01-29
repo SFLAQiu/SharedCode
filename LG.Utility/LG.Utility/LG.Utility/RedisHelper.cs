@@ -19,7 +19,7 @@ namespace LG.Utility {
         private  PooledRedisClientManager GetDefaultManager() {
             if (_pcm != null) return _pcm;
             _pcm = new PooledRedisClientManager(new[] { _RedisConnection });
-            _pcm.ConnectTimeout = 1000;
+            _pcm.ConnectTimeout = 3000;
             _pcm.IdleTimeOutSecs = 30;
             return _pcm;
         }
