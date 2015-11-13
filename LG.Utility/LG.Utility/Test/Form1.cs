@@ -98,5 +98,33 @@ namespace Test {
             return fc.Invoke(str);
         }
 
+        private void button8_Click(object sender, EventArgs e) {
+            //jCwZlFi+ImzRYerQHMsaw6mN3PWlx3Sr|1447310524014
+            //混淆加密
+            SuperEncrypt se = new SuperEncrypt("C6G89MB6PI3X5YF6", keyAppendCode: "%834#@jndfs");
+            //明文
+            var plaintext = "token,1447310524014";
+            //密文
+            string keyStr=string.Empty;//秘钥
+            var ciphertext = se.Encrypt(plaintext, out keyStr);
+            //根据密文解析秘钥
+            var secretKey = SuperEncrypt.GetSecretKey(ciphertext);
+            //解密
+            var str = se.Decrypt(ciphertext);
+            this.txt_mw.Text =
+             @"秘钥=" + SuperEncrypt.GetSecretKey(ciphertext) + "," + keyStr + "\r\n" +
+            "加密串=" + ciphertext + "\r\n" +
+            "url编码=" + ciphertext.UrlDecode() + "\r\n" +
+            "解密=" + str;
+        }
+
+        private void button9_Click(object sender, EventArgs e) {
+            this.txt_md5_result.Text = this.txt_MD5.Text.MD5().ToLower();
+        }
+
+        private void btn_IP_Click(object sender, EventArgs e) {
+            MessageBox.Show(StaticFunctions.GetClientRealIpV2());
+        }
+
     }
 }

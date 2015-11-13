@@ -32,6 +32,16 @@ namespace LG.Utility {
             if (!_RedisConnectionAuth.IsNullOrWhiteSpace()) client.Password = _RedisConnectionAuth;
             return client;
         }
+
+        ///// <summary>
+        ///// 获取链接redis对象
+        ///// </summary>
+        ///// <returns></returns>
+        //public IRedisClient ReadClient() {
+        //    IRedisClient client = GetDefaultManager().GetReadOnlyClient();
+        //    if (!_RedisConnectionAuth.IsNullOrWhiteSpace()) client.Password = _RedisConnectionAuth;
+        //    return client;
+        //}
         #region "帮助拓展"
         #region "字符串类型"
         /// <summary>

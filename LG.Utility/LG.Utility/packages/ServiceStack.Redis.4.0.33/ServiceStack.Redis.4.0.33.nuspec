@@ -14,6 +14,7 @@
       Thread-Safe Basic and Pooled client managers included.
 
       To revert back to the previous BSD ServiceStack v3, see https://github.com/ServiceStackV3/ServiceStackV3</description>
+    <releaseNotes />
     <copyright>ServiceStack 2013 and contributors</copyright>
     <language>en-US</language>
     <tags>Redis NoSQL Client Distributed Cache PubSub Messaging Transactions</tags>

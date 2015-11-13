@@ -12,6 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Lightweight and implementation-free interfaces for DTO's, providers and adapters.</description>
     <summary>Opensource .NET and Mono REST Web Services framework</summary>
+    <releaseNotes />
     <copyright>Copyright 2014 Service Stack</copyright>
     <language>en-US</language>
     <tags>Fast JSON XML CSV HTML SOAP JSV REST Web Service Framework MONO ServiceStack</tags>

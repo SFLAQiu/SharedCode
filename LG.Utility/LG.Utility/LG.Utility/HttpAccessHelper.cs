@@ -4,6 +4,7 @@ using System.Text;
 using System.IO.Compression;
 using System.Net;
 using System.IO;
+using System.Web;
 
 namespace LG.Utility {
     /// <summary>
@@ -645,5 +646,90 @@ namespace LG.Utility {
             response.Cookies = cookies;
             return cookies;
         }
+        #region "图片下载"
+        /// <summary>
+        /// 从图片地址下载图片到本地磁盘
+        /// </summary>
+        /// <param name="ToLocalPath">图片本地磁盘地址</param>
+        /// <param name="url">图片网址</param>
+        /// <returns></returns>
+        public static bool SavePhotoFromUrl(string fileName, string url, out string errMsg) {
+            errMsg = string.Empty;
+            bool Value = false;
+            WebResponse response = null;
+            Stream stream = null;
+            try {
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                response = request.GetResponse();
+                stream = response.GetResponseStream();
+                FileInfo fileInfo = new FileInfo(fileName);
+                if (!Directory.Exists(fileInfo.DirectoryName)) Directory.CreateDirectory(fileInfo.DirectoryName);
+                if (!response.ContentType.ToLower().StartsWith("text/")) Value = SaveBinaryFile(response, fileName);
+            } catch (Exception err) {
+                errMsg = err.ToString();
+            }
+            return Value;
+        }
+        /// <summary>
+        /// Save a binary file to disk.
+        /// </summary>
+        /// <param name="response">The response used to save the file</param>
+        // 将二进制文件保存到磁盘
+        private static bool SaveBinaryFile(WebResponse response, string FileName) {
+            bool Value = true;
+            byte[] buffer = new byte[1024];
+            try {
+                if (File.Exists(FileName))
+                    File.Delete(FileName);
+                Stream outStream = System.IO.File.Create(FileName);
+                Stream inStream = response.GetResponseStream();
+                int l;
+                do {
+                    l = inStream.Read(buffer, 0, buffer.Length);
+                    if (l > 0)
+                        outStream.Write(buffer, 0, l);
+                }
+                while (l > 0);
+                outStream.Close();
+                inStream.Close();
+            } catch {
+                Value = false;
+            }
+            return Value;
+        }
+        #endregion
+        /// <summary>
+        /// 获取发起请求的手机客户端类型
+        /// </summary>
+        /// <returns></returns>
+        public static EMobilePhoneClient? GetRequestPhoneClient() {
+            var userAgent = HttpContext.Current.Request.Headers["User-Agent"];
+            if (userAgent.IsNullOrWhiteSpace()) return null;
+            var elist = EnumHelper<EMobilePhoneClient>.GetAllItem();
+            foreach (var item in elist) {
+                if (userAgent.Contains(item.GetEnumAttr().Text)) return item;
+            }
+            return null;
+
+        }
+        
+    }
+    /// <summary>
+    /// 移动手机客户端类型
+    /// <para>
+    /// EnumAttr Text=请求头中UserAgent 的信息，用来判断对应到客户端类型枚举
+    /// </para>
+    /// </summary>
+    public enum EMobilePhoneClient {
+        [EnumAttr(Text = "Android", Desc = "安坐")]
+        Android=1,
+        [EnumAttr(Text = "iPhone", Desc = "苹果")]
+        IPhone=2,
+        [EnumAttr(Text = "iPod", Desc = "苹果iPod")]
+        IPod = 3,
+        [EnumAttr(Text = "iPad", Desc = "苹果iPad")]
+        IPad = 4,
+        [EnumAttr(Text = "Windows Phone", Desc = "苹果iPad")]
+        WindowsPhone=5
     }
 }

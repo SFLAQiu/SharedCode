@@ -243,7 +243,7 @@ namespace LG.Utility {
             return true;
         }
         /// <summary>
-        /// 尽最大努力取得用户IP
+        /// 尽最大努力取得用户IP（这个版本已经不再维护，请使用V2最新版本）
         /// </summary>
         /// <returns>用户IP</returns>
         public static string GetClientRealIp() {
@@ -273,6 +273,23 @@ namespace LG.Utility {
                 return "0.0.0.0";
             }
 
+        }
+        /// <summary>
+        /// 获取客户端IP地址
+        /// </summary>
+        public static string GetClientRealIpV2() {
+            if (HttpContext.Current == null) return string.Empty;
+            var userHostAddress=string.Empty;
+            //如果客户端使用了代理服务器，则利用HTTP_X_FORWARDED_FOR找到客户端IP地址
+            if (!HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].IsNullOrWhiteSpace())
+                userHostAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].Split(',')[0].Trim();
+            //否则直接读取REMOTE_ADDR获取客户端IP地址
+            if (userHostAddress.IsNullOrWhiteSpace()) userHostAddress = HttpContext.Current.Request.ServerVariables["REMOTE_ADDR"];
+            //前两者均失败，则利用Request.UserHostAddress属性获取IP地址，但此时无法确定该IP是客户端IP还是代理IP
+            if (userHostAddress.IsNullOrWhiteSpace()) userHostAddress = HttpContext.Current.Request.UserHostAddress;
+            //最后判断获取是否成功，并检查IP地址的格式（检查其格式非常重要）
+            if (!userHostAddress.IsNullOrWhiteSpace() && userHostAddress.IsIP()) return userHostAddress;
+            return string.Empty;
         }
         /// <summary>
         /// 输出客服端，下载文件

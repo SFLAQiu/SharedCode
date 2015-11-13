@@ -65,6 +65,15 @@ namespace LG.Utility {
     /// </summary>
     public static class OrderByExtend {
         /// <summary>
+        /// 根据排序对象集合获取排序SQL字符串
+        /// </summary>
+        /// <param name="orders"></param>
+        /// <returns></returns>
+        public static string GetOrderStr(this OrderBy[] orders) {
+            if (orders == null) return string.Empty;
+            return SQLHelper.GetOrderStr(orders.ToList());
+        }
+        /// <summary>
         /// 排序枚举快速获得排序对象
         /// </summary>
         /// <param name="enumObj"></param>

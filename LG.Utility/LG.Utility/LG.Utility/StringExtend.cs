@@ -225,6 +225,16 @@ namespace LG.Utility {
             }
             return obj;
         }
+        /// <summary>
+        /// 从字符串中返序列化为字符串
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static string DecodeBase64(this string str) {
+            if(str.IsNullOrWhiteSpace())return string.Empty;
+            byte[] outputb = Convert.FromBase64String(str);
+            return Encoding.Default.GetString(outputb);
+        }
         #endregion
         #region "JSON"
         /// <summary>
@@ -235,6 +245,22 @@ namespace LG.Utility {
         /// <returns></returns>
         public static T JSONDeserialize<T>(this string jsonStr) {
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            return serializer.Deserialize<T>(jsonStr);
+        }
+        /// <summary>
+        /// 根据JSON字符串反序列化为对象（把时间"/Date(1435891779000)/" 转为yyyy-MM-dd HH:mm:ss 格式，不然会反序列化回来会差8个小时）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jsonStr"></param>
+        /// <returns></returns>
+        public static T JSONDeserializeV2<T>(this string jsonStr) {
+            System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            jsonStr = Regex.Replace(jsonStr, @"\\/Date\((\d+)\)\\/", match => {
+                DateTime dt = new DateTime(1970, 1, 1);
+                dt = dt.AddMilliseconds(long.Parse(match.Groups[1].Value));
+                dt = dt.ToLocalTime();
+                return dt.ToString("yyyy-MM-dd HH:mm:ss");
+            });
             return serializer.Deserialize<T>(jsonStr);
         }
         #endregion
@@ -488,7 +514,7 @@ namespace LG.Utility {
         /// <param name="str"></param>
         /// <returns></returns>
         public static string UrlDecode(this string str) {
-            return HttpContext.Current.Server.UrlDecode(str);
+            return System.Web.HttpUtility.UrlDecode(str);
         }
         /// <summary>
         /// URL编码
@@ -496,7 +522,7 @@ namespace LG.Utility {
         /// <param name="str"></param>
         /// <returns></returns>
         public static string UrlEncode(this string str) {
-            return HttpContext.Current.Server.UrlEncode(str);
+            return System.Web.HttpUtility.UrlEncode(str); //HttpContext.Current.Server.UrlEncode(str);
         }
         /// <summary>
         /// 转换为HTML编码字符串
@@ -514,7 +540,92 @@ namespace LG.Utility {
         public static string HtmlDecode(this string str) {
             return HttpUtility.HtmlDecode(str);
         }
+        /// <summary>
+        /// 获取截取字符串 如：abcde => a**e
+        /// </summary>
+        /// <param name="str">源字符串</param>
+        /// <param name="sSubIndex">源字符串截取位置字符串（0-当前值），作为拼接字符串的头部</param>
+        /// <param name="eSubIndex">源字符串截取位置字符串（当前值-总长度），作为拼接字符串的头部</param>
+        /// <param name="symbolNum"></param>
+        /// <param name="symbol"></param>
+        /// <returns></returns>
+        public static string GetSubSymbol(this string str, int sSubIndex, int eSubIndex, int symbolNum, string symbol) {
+            if (str.IsNullOrWhiteSpace()) return str;
+            var strLength = str.Length;
+            var strIndex = strLength - 1;
+            if (strLength <= 0 || sSubIndex < 0 || eSubIndex < 0 || sSubIndex > eSubIndex || eSubIndex > (strLength - 1) || symbolNum <= 0) return str;
+            var sStr = str.Substring(0, sSubIndex);
+            var eStr = str.Substring(eSubIndex, strLength - eSubIndex);
+            StringBuilder symbols = new StringBuilder();
+            for (int i = 1; i <= symbolNum; i++) symbols.Append(symbol);
+            return "{0}{1}{2}".FormatStr(sStr, symbols.ToString(), eStr);
+        }
+        #region "DES加密"
 
+        /// <summary>
+        /// DES加密
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string DesEncrypt(this string input) {
+            EncryptDes desobj = new EncryptDes();
+            return desobj.ToEncrypt(input);
+        }
+
+        /// <summary>
+        /// DES解密
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static string DesDecrypt(this string input) {
+            EncryptDes desobj = new EncryptDes();
+            return desobj.ReturnEncrypt(input);
+        }
+
+
+
+        /// <summary>   
+        /// DES加密方法，用UTF8编码
+        /// </summary>   
+        /// <param name="inp">待加密</param>   
+        /// <param name="key">key</param>   
+        /// <returns>加密完的数组</returns>   
+        public static string DESEncryptWithCBCZeros(this string inp, string key) {
+            return DESEncryptWithCBCZeros(inp, key, Encoding.UTF8);
+        }
+        /// <summary>   
+        /// DES加密方法   
+        /// </summary>   
+        /// <param name="inp">待加密</param>   
+        /// <param name="key">key</param>   
+        /// <param name="encode">编码</param>   
+        /// <returns>加密完的数组</returns>   
+        public static string DESEncryptWithCBCZeros(this string inp, string key, Encoding encode) {
+            DESCBCEncry enr = new DESCBCEncry(encode);
+            return enr.GetEncrypt(inp, key);
+        }
+
+        /// <summary>   
+        /// DES解密方法，用UTF8编码
+        /// </summary>   
+        /// <param name="inp">待加密</param>   
+        /// <param name="key">key</param>   
+        /// <returns>解密完的数组</returns>   
+        public static string DESDecryptWithCBCZeros(this string inp, string key) {
+            return DESDecryptWithCBCZeros(inp, key, Encoding.UTF8);
+        }
+        /// <summary>   
+        /// DES解密方法
+        /// </summary>   
+        /// <param name="inp">待加密</param>   
+        /// <param name="key">key</param>
+        /// <param name="encode">编码</param>    
+        /// <returns>解密完的数组</returns>   
+        public static string DESDecryptWithCBCZeros(this string inp, string key, Encoding encode) {
+            DESCBCEncry enr = new DESCBCEncry(encode);
+            return enr.GetDecrypt(inp, key);
+        }
+        #endregion
         #endregion
         #region "全角半角"
         /// <summary>
@@ -553,7 +664,7 @@ namespace LG.Utility {
             return new string(c);
         }
         #endregion
-        #region
+        #region "各种校验"
         /// <summary>
         /// 判断吗是否是数字字符串
         /// </summary>
@@ -563,6 +674,34 @@ namespace LG.Utility {
             var match = rg.Match(str);
             if (match != null && match.Length>0) return true;
             return false;
+        }
+        /// <summary>
+        /// 是否是手机号
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsPhoneNum(this string str) {
+            if (str.IsNullOrWhiteSpace()) return false;
+            return Regex.IsMatch(str, "^(13([0-9])|14([0-9])|15([0-9])|17([0-9])|18([0-9]))\\d{8}$");
+        }
+
+        /// <summary>
+        /// 是否是邮箱
+        /// </summary>
+        /// <param name="str"></param>
+        /// <returns></returns>
+        public static bool IsEmail(this string str) {
+            if (str.IsNullOrWhiteSpace()) return false;
+            return Regex.IsMatch(str, "\\w{1,}@\\w{1,}\\.\\w{1,}");
+        }
+
+        /// <summary>
+        /// 检查IP地址格式
+        /// </summary>
+        /// <param name="ip"></param>
+        /// <returns></returns>
+        public static bool IsIP(this string ip) {
+            return System.Text.RegularExpressions.Regex.IsMatch(ip, @"^((2[0-4]\d|25[0-5]|[01]?\d\d?)\.){3}(2[0-4]\d|25[0-5]|[01]?\d\d?)$");
         }
         #endregion
     }

@@ -12,6 +12,7 @@
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Common base library for ServiceStack projects.</description>
     <summary>Opensource .NET and Mono REST Web Services framework</summary>
+    <releaseNotes />
     <copyright>Copyright 2014 Service Stack</copyright>
     <language>en-US</language>
     <tags>ServiceStack Common Framework Clients ServiceClients Gateway</tags>
