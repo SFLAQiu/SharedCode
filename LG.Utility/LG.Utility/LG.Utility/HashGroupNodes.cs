@@ -17,21 +17,30 @@ namespace  LG.Utility {
         private SortedList<long, string> ketamaNodes = new SortedList<long, string>();
         private HashAlgorithm hashAlg;
         private int numReps = 160;
+        public HashGroupNodes(int nodes, int nodeCopies) {
+            for (int node = 1; node <= nodes; node++) {
+                AddKetamaNodes(node.ToString());
+            }
+        }
         //此处参数与JAVA版中有区别，因为使用的静态方法，所以不再传递HashAlgorithm alg参数
         public HashGroupNodes(List<string> nodes, int nodeCopies) {
             ketamaNodes = new SortedList<long, string>();
             numReps = nodeCopies;
             //对所有节点，生成nCopies个虚拟结点
             foreach (string node in nodes) {
-                //每四个虚拟结点为一组
-                for (int i = 0; i < numReps / 4; i++) {
-                    //getKeyForNode方法为这组虚拟结点得到惟一名称 
-                    byte[] digest = HashAlgorithm.computeMd5(node + i);
-                    /** Md5是一个16字节长度的数组，将16字节的数组每四个字节一组，分别对应一个虚拟结点，这就是为什么上面把虚拟结点四个划分一组的原因*/
-                    for (int h = 0; h < 4; h++) {
-                        long m = HashAlgorithm.hash(digest, h);
-                        ketamaNodes[m] = node;
-                    }
+                AddKetamaNodes(node);
+            }
+        }
+
+        private void AddKetamaNodes(string node) {
+            //每四个虚拟结点为一组
+            for (int i = 0; i < numReps / 4; i++) {
+                //getKeyForNode方法为这组虚拟结点得到惟一名称 
+                byte[] digest = HashAlgorithm.computeMd5(node + i);
+                /** Md5是一个16字节长度的数组，将16字节的数组每四个字节一组，分别对应一个虚拟结点，这就是为什么上面把虚拟结点四个划分一组的原因*/
+                for (int h = 0; h < 4; h++) {
+                    long m = HashAlgorithm.hash(digest, h);
+                    ketamaNodes[m] = node;
                 }
             }
         }

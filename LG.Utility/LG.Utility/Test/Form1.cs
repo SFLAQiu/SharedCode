@@ -6,6 +6,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Web.Script.Serialization;
 using System.Windows.Forms;
 using LG.Utility;
 using Test.Model;
@@ -99,23 +100,26 @@ namespace Test {
         }
 
         private void button8_Click(object sender, EventArgs e) {
-            //jCwZlFi+ImzRYerQHMsaw6mN3PWlx3Sr|1447310524014
-            //混淆加密
-            SuperEncrypt se = new SuperEncrypt("C6G89MB6PI3X5YF6", keyAppendCode: "%834#@jndfs");
-            //明文
-            var plaintext = "token,1447310524014";
-            //密文
-            string keyStr=string.Empty;//秘钥
-            var ciphertext = se.Encrypt(plaintext, out keyStr);
-            //根据密文解析秘钥
-            var secretKey = SuperEncrypt.GetSecretKey(ciphertext);
-            //解密
-            var str = se.Decrypt(ciphertext);
-            this.txt_mw.Text =
-             @"秘钥=" + SuperEncrypt.GetSecretKey(ciphertext) + "," + keyStr + "\r\n" +
-            "加密串=" + ciphertext + "\r\n" +
-            "url编码=" + ciphertext.UrlDecode() + "\r\n" +
-            "解密=" + str;
+           
+            ////jCwZlFi+ImzRYerQHMsaw6mN3PWlx3Sr|1447310524014
+            ////混淆加密
+            //SuperEncrypt se = new SuperEncrypt("C6G89MB6PI3X5YF6");
+            ////明文
+            //var plaintext = "token,1447310524014";
+            ////密文
+            //string keyStr=string.Empty;//秘钥
+            //var ciphertext = se.Encrypt(plaintext, out keyStr);
+            ////根据密文解析秘钥
+            //var secretKey = SuperEncrypt.GetSecretKey(ciphertext);
+            ////解密
+            //var str = se.Decrypt(ciphertext);
+            //this.txt_mw.Text =
+            // @"秘钥=" + SuperEncrypt.GetSecretKey(ciphertext)+
+            //"加密串=" + ciphertext + "\r\n" +
+            //"url编码=" + ciphertext.UrlDecode() + "\r\n" +
+            //"解密=" + str;
+            string a ="23.365";
+            MessageBox.Show(a.To<int>().ToString());
         }
 
         private void button9_Click(object sender, EventArgs e) {
@@ -126,5 +130,48 @@ namespace Test {
             MessageBox.Show(StaticFunctions.GetClientRealIpV2());
         }
 
+        private void button10_Click(object sender, EventArgs e) {
+            //var datas = new SortedList<int, string>();
+            //datas.Add(1, "1");
+            //datas.Add(3, "3");
+            //datas.Add(9, "9");
+            //datas.Add(2, "2");
+            //datas.Add(11, "11");
+            //datas.Add(4, "4");
+            //StringBuilder str = new StringBuilder();
+            //foreach (var item in datas) {
+            //    datas.
+            //    str.Append(item.Value+"|");
+            //}
+            //MessageBox.Show(str.ToString());
+
+            //List<int> datas = new List<int> { 
+            //    1,2,36,787,3,55,21,456,23,2,4,56,12,5,6 nr6
+            //};
+            //var rtnDatas = datas.OrderBy(s => Guid.NewGuid()).ToList();
+            //MessageBox.Show(rtnDatas[0].ToString()+",guid="+Guid.NewGuid().ToString());
+            //var a = 10m*0.36m;
+            //var aa = (int)(a * 10);
+            //var c = Math.Round(a, 1, MidpointRounding.AwayFromZero);
+
+            //MessageBox.Show(((int)(a * 10) / 10.0).ToString("f1"));
+           JavaScriptSerializer serializer = new JavaScriptSerializer();
+            var cookie = new System.Net.CookieCollection();
+            var result = HttpAccessHelper.GetHttpPostJsonText("http://gw.fanhuan.com/common/PushPassthrough/?uids=11269864", Encoding.UTF8, new { module = "aaa", value = "d1" }.GetJSON(),null,out cookie, timeoutMillisecond: 30000);
+            MessageBox.Show(result);
+        }
+
+
+
+
+
+        private void tabPage1_Click(object sender, EventArgs e) {
+
+        }
+
+    }
+    public class imgDemo {
+        public int ImgHeight { get; set; }
+        public int ImgWidth { get; set; }
     }
 }

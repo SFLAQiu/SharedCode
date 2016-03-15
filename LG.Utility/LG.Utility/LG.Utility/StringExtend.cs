@@ -148,6 +148,16 @@ namespace LG.Utility {
             }
             return lis;
         }
+
+
+        // 时间戳转为C#格式时间
+        public static DateTime StampToDateTime(this string timeStamp) {
+            DateTime dateTimeStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            long lTime = long.Parse(timeStamp + "0000000");
+            TimeSpan toNow = new TimeSpan(lTime);
+            return dateTimeStart.Add(toNow);
+        }
+
         #endregion
         #region "HTML相关"
         /// <summary>
@@ -255,12 +265,26 @@ namespace LG.Utility {
         /// <returns></returns>
         public static T JSONDeserializeV2<T>(this string jsonStr) {
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
-            jsonStr = Regex.Replace(jsonStr, @"\\/Date\((\d+)\)\\/", match => {
-                DateTime dt = new DateTime(1970, 1, 1);
-                dt = dt.AddMilliseconds(long.Parse(match.Groups[1].Value));
-                dt = dt.ToLocalTime();
-                return dt.ToString("yyyy-MM-dd HH:mm:ss");
-            });
+            string r1 = @"\\/Date\((\d+)\)\\/";
+            string r2 = @"\/Date\((\d+)\)\/";
+            if (new Regex(r1).IsMatch(jsonStr))
+            {
+                jsonStr = Regex.Replace(jsonStr, r1, match => {
+                    DateTime dt = new DateTime(1970, 1, 1);
+                    dt = dt.AddMilliseconds(long.Parse(match.Groups[1].Value));
+                    dt = dt.ToLocalTime();
+                    return dt.ToString("yyyy-MM-dd HH:mm:ss");
+                });
+            }else if (new Regex(r2).IsMatch(jsonStr))
+            {
+                jsonStr = Regex.Replace(jsonStr, r2, match => {
+                    DateTime dt = new DateTime(1970, 1, 1);
+                    dt = dt.AddMilliseconds(long.Parse(match.Groups[1].Value));
+                    dt = dt.ToLocalTime();
+                    return dt.ToString("yyyy-MM-dd HH:mm:ss");
+                });
+            }
+           
             return serializer.Deserialize<T>(jsonStr);
         }
         #endregion
@@ -522,7 +546,16 @@ namespace LG.Utility {
         /// <param name="str"></param>
         /// <returns></returns>
         public static string UrlEncode(this string str) {
-            return System.Web.HttpUtility.UrlEncode(str); //HttpContext.Current.Server.UrlEncode(str);
+            return System.Web.HttpUtility.UrlEncode(str); 
+        }
+        /// <summary>
+        /// URL编码
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="encoding">编码类型</param>
+        /// <returns></returns>
+        public static string UrlEncode(this string str,Encoding encoding) {
+            return System.Web.HttpUtility.UrlEncode(str,encoding);
         }
         /// <summary>
         /// 转换为HTML编码字符串

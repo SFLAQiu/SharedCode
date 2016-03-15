@@ -25,6 +25,7 @@
         private void InitializeComponent() {
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.button10 = new System.Windows.Forms.Button();
             this.txt_mw = new System.Windows.Forms.TextBox();
             this.btn_IP = new System.Windows.Forms.Button();
             this.txt_md5_result = new System.Windows.Forms.TextBox();
@@ -75,6 +76,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.button10);
             this.tabPage1.Controls.Add(this.txt_mw);
             this.tabPage1.Controls.Add(this.btn_IP);
             this.tabPage1.Controls.Add(this.txt_md5_result);
@@ -96,6 +98,16 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // button10
+            // 
+            this.button10.Location = new System.Drawing.Point(6, 335);
+            this.button10.Name = "button10";
+            this.button10.Size = new System.Drawing.Size(75, 23);
+            this.button10.TabIndex = 24;
+            this.button10.Text = "临时";
+            this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // txt_mw
             // 
@@ -435,6 +447,7 @@
         private System.Windows.Forms.TextBox txt_md5_result;
         private System.Windows.Forms.Button btn_IP;
         private System.Windows.Forms.TextBox txt_mw;
+        private System.Windows.Forms.Button button10;
 
     }
 }

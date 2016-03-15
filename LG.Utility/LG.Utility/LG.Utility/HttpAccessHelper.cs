@@ -256,7 +256,7 @@ namespace LG.Utility {
         /// </summary>
         private static HttpWebRequest GetHttpPostRequest(string url, IDictionary<string, string> data
             , IDictionary<string, byte[]> byteData, IDictionary<string, string> byteDataFileNames, bool isGZip, Encoding dataEncoding, int timeoutMillisecond
-            , CookieCollection requestCookies) {
+            , CookieCollection requestCookies,string contentType= "multipart/form-data", string jsonStr="") {
             //分割符(字符串)
             string boundary = "----------" + DateTime.Now.Ticks.ToString("x");
             //分割符(二进制,用于最后的一个分隔符)
@@ -273,7 +273,7 @@ namespace LG.Utility {
             }
             request.Timeout = timeoutMillisecond;
             request.Method = System.Net.WebRequestMethods.Http.Post;
-            request.ContentType = "multipart/form-data; boundary=" + boundary;
+            request.ContentType =$"{contentType}; boundary=" + boundary;
 
             //获取到请求流
             System.IO.StreamWriter writer = new System.IO.StreamWriter(request.GetRequestStream());
@@ -284,7 +284,7 @@ namespace LG.Utility {
             if (data != null) {
                 foreach (string dataKey in data.Keys) {
                     tempByte = dataEncoding.GetBytes("--" + boundary + "\r\n"
-                        + "Content-Disposition: form-data; name=\"" + dataKey + "\"\r\n"
+                        + $"Content-Disposition: form-data; name=\"" + dataKey + "\"\r\n"
                         + "\r\n"
                         + data[dataKey]
                         + "\r\n");
@@ -325,6 +325,8 @@ namespace LG.Utility {
                 contentLength += boundaryBytes.Length;
                 writer.BaseStream.Write(boundaryBytes, 0, boundaryBytes.Length);
             }
+            //post JSON
+            if (!jsonStr.IsNullOrWhiteSpace()) writer.Write(jsonStr);
             writer.Close();
             writer.Dispose();
             //***结束发送POST请求***
@@ -372,7 +374,16 @@ namespace LG.Utility {
 
             return response;
         }
-
+        public static string GetHttpPostJsonText(string url,Encoding dataEncoding,string jsonStr, CookieCollection requestCookies,out CookieCollection responseCookies, int timeoutMillisecond = 3000) {
+            var request = GetHttpPostRequest(url, null, null, null, false, dataEncoding, timeoutMillisecond, requestCookies,contentType: "application/json",jsonStr: jsonStr);
+            //开始获取接收流
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            responseCookies = GetCookiesByHeaderSetCookie(response);
+            var reader = new StreamReader(response.GetResponseStream());
+            string text = reader.ReadToEnd();
+            reader.Close();
+            return text;
+        }
         /// <summary>
         /// Http模拟请求的基础实现方法,返回流读取器,需要外部关闭
         /// </summary>

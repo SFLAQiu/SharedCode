@@ -39,13 +39,12 @@ namespace LG.Utility {
         public string Encrypt(string plaintext, out string secretKey) {
             secretKey = string.Empty;
             if (plaintext.IsNullOrWhiteSpace()) return string.Empty;
-            secretKey = Rand.Str(6);
+            secretKey = Rand.Str(6);//"CWII7J";
             if (secretKey.IsNullOrWhiteSpace() || secretKey.Count() != 6) return string.Empty;
             var leftStr = secretKey.Substring(0, 3);
             var rightStr = secretKey.Substring(3, 3);
-            var aesKey = "{0}{1}".FormatStr(leftStr, rightStr);
             //随机6位密码+附加码
-            aesKey = "{0}{1}".FormatStr(aesKey, _KeyAppendCode).MD5().ToLower();
+            var aesKey = "{0}{1}".FormatStr(secretKey, _KeyAppendCode).MD5().ToLower();
             //加密操作
             var ciphertext = AESEncrypt.AesEncrypt(plaintext, secretKey: aesKey, vectorStr: _AESVector).Replace("+", "_").Replace("/", "-").Replace("=", "*");
             return "{0}{1}{2}".FormatStr(leftStr, ciphertext, rightStr);
