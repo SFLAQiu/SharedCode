@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -288,6 +289,18 @@ namespace LG.Utility {
             return serializer.Deserialize<T>(jsonStr);
         }
         #endregion
+        #region "JSON 基于 Newtonsoft.Json" 
+        /// <summary>
+        /// 字符串反序列化成对象  基于(Newtonsoft.Json)
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="jsonStr"></param>
+        /// <returns></returns>
+        public static T JSONDeserializeV3<T>(this string jsonStr) {
+            var obj = JsonConvert.DeserializeObject<T>(jsonStr);
+            return obj;
+        }
+        #endregion
         #region "中文转拼音缩写"
         private static string strChineseFirstPY =
           "YDYQSXMWZSSXJBYMGCCZQPSSQBYCDSCDQLDYLYBSSJGYZZJJFKCCLZDHWDWZJLJPFYYNWJJTMYHZWZHFLZPPQHGSCYYYNJQYXXGJ"
@@ -574,13 +587,13 @@ namespace LG.Utility {
             return HttpUtility.HtmlDecode(str);
         }
         /// <summary>
-        /// 获取截取字符串 如：abcde => a**e
+        /// 获取截取字符串 如：abcde => a**e  "abcde".GetSubSymbol(1, 4, 2, "*"); 
         /// </summary>
         /// <param name="str">源字符串</param>
-        /// <param name="sSubIndex">源字符串截取位置字符串（0-当前值），作为拼接字符串的头部</param>
-        /// <param name="eSubIndex">源字符串截取位置字符串（当前值-总长度），作为拼接字符串的头部</param>
-        /// <param name="symbolNum"></param>
-        /// <param name="symbol"></param>
+        /// <param name="sSubIndex">源字符串截取位置字符串（0-当前值），作为拼接字符串的头部(截取部分包括开始不包括结束)</param>
+        /// <param name="eSubIndex">源字符串截取位置字符串（当前值-总长度），作为拼接字符串的尾部(截取部分包括开始不包括结束)</param>
+        /// <param name="symbolNum">特殊符号的数量</param>
+        /// <param name="symbol">拼接的特殊符号</param>
         /// <returns></returns>
         public static string GetSubSymbol(this string str, int sSubIndex, int eSubIndex, int symbolNum, string symbol) {
             if (str.IsNullOrWhiteSpace()) return str;

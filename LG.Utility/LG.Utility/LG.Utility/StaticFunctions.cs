@@ -307,5 +307,64 @@ namespace LG.Utility {
             HttpContext.Current.Response.AddHeader("Content-Disposition", "attachment;filename=" + saveFileName);
             HttpContext.Current.Response.WriteFile(filePath);
         }
+        /// <summary>
+        /// 获取位状态
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public static bool GetPosStatus(string str,int index) {
+            if (str.IsNullOrWhiteSpace()) return false;
+            var length = str.Length;
+            if (index > (length - 1)) return false;
+            return str.Substring(index, 1).GetInt(0,false)>0;
+        }
+        /// <summary>
+        /// 修改位状态
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="index"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public static string SetPosStatus(string str, int index,bool status) {
+            if (str.IsNullOrWhiteSpace()) return str;
+            var indexStatus= GetPosStatus(str,index).GetInt(0,false)>0;
+            if (indexStatus.Equals(status)) return str;
+            StringBuilder sb = new StringBuilder(str);
+            sb.Replace(indexStatus.GetInt(0,false).GetString(), status.GetInt(0, false).GetString(), index, 1);
+            return sb.GetString();
+        }
+
+        /// <summary>
+        /// 获取位状态字符串初始化
+        /// <para>0.... length=0的个数，默认=8</para>
+        /// </summary>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        public static string InitPostStatus(int length = 8) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < length; i++) {
+                sb.Append("0");
+            }
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// 多次执行方法
+        /// </summary>
+        /// <param name="doFn">委托方法</param>
+        /// <param name="failureTimes">失败后重复执行的次数</param>
+        /// <returns>返回最后执行的结果</returns>
+        public static bool DoFnAgain(Func<bool> doFn, int failureTimes = 3) {
+            var isSc = false;
+            if (doFn == null || failureTimes <= 0) return isSc;
+            for (int i = 0; i < failureTimes; i++) {
+                isSc = doFn();
+                if (isSc) break;
+            }
+            return isSc;
+        }
+
+
     }
 }

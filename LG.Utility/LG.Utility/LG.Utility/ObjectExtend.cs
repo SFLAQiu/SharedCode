@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -117,6 +119,18 @@ namespace LG.Utility {
         public static string GetJSON(this Object obj) {
             System.Web.Script.Serialization.JavaScriptSerializer serializer = new System.Web.Script.Serialization.JavaScriptSerializer();
             return serializer.Serialize(obj);
+        }
+        #endregion
+
+        #region "JSON 基于 Newtonsoft.Json"
+        /// <summary>
+        /// 把对象JSON序列化 基于(Newtonsoft.Json)
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns></returns>
+        public static string JSONSerializeV3(this Object obj) {
+            string json = JsonConvert.SerializeObject(obj, new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+            return json;
         }
         #endregion
         /// <summary>
