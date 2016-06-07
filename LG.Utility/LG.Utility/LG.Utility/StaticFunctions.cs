@@ -311,27 +311,25 @@ namespace LG.Utility {
         /// 获取位状态
         /// </summary>
         /// <param name="str"></param>
-        /// <param name="index"></param>
+        /// <param name="position">从1开始</param>
         /// <returns></returns>
-        public static bool GetPosStatus(string str,int index) {
+        public static bool GetPosStatus(string str,int position) {
             if (str.IsNullOrWhiteSpace()) return false;
-            var length = str.Length;
-            if (index > (length - 1)) return false;
-            return str.Substring(index, 1).GetInt(0,false)>0;
+            return str.Substring(position-1, 1).GetInt(0,false)>0;
         }
         /// <summary>
         /// 修改位状态
         /// </summary>
         /// <param name="str"></param>
-        /// <param name="index"></param>
+        /// <param name="position">从1开始</param>
         /// <param name="status"></param>
         /// <returns></returns>
-        public static string SetPosStatus(string str, int index,bool status) {
+        public static string SetPosStatus(string str, int position, bool status) {
             if (str.IsNullOrWhiteSpace()) return str;
-            var indexStatus= GetPosStatus(str,index).GetInt(0,false)>0;
+            var indexStatus= GetPosStatus(str, position).GetInt(0,false)>0;
             if (indexStatus.Equals(status)) return str;
             StringBuilder sb = new StringBuilder(str);
-            sb.Replace(indexStatus.GetInt(0,false).GetString(), status.GetInt(0, false).GetString(), index, 1);
+            sb.Replace(indexStatus.GetInt(0,false).GetString(), status.GetInt(0, false).GetString(), position - 1, 1);
             return sb.GetString();
         }
 
@@ -365,6 +363,24 @@ namespace LG.Utility {
             return isSc;
         }
 
-
+        /// <summary>
+        /// 获取签名
+        /// </summary>
+        /// <param name="values">需要加密的值</param>
+        /// <returns></returns>
+        public static string GetSignatureBySha1(List<string> values)
+        {
+            var array = values.ToArray();
+            Array.Sort(array, string.CompareOrdinal);
+            var s = string.Join("", array);
+            var sha1 = System.Security.Cryptography.SHA1.Create();
+            var sha1Array = sha1.ComputeHash(Encoding.UTF8.GetBytes(s));
+            var result = new StringBuilder();
+            foreach (var b in sha1Array)
+            {
+                result.AppendFormat("{0:x2}", b);
+            }
+            return result.ToString();
+        }
     }
 }
