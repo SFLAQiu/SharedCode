@@ -29,6 +29,20 @@ namespace LG.Utility {
             if (datas == null || datas.Count <= 0) return string.Empty;
             return string.Join(separator, datas);
         }
-      
+        /// <summary>
+        /// Type转DbType
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static DbType ToDbType(this Type t) {
+            DbType dbt;
+            try {
+                dbt = (DbType)Enum.Parse(typeof(DbType), t.Name);
+            } catch {
+                dbt = DbType.Object;
+            }
+            return dbt;
+        }
+
     }
 }

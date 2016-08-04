@@ -90,6 +90,7 @@
     <Compile Include="SiteLog.cs" />
     <Compile Include="SQLHelper.cs" />
     <Compile Include="SQLPager.cs" />
+    <Compile Include="SqlParameterAttribute.cs" />
     <Compile Include="SQLSuperPager.cs" />
     <Compile Include="StaticFunctions.cs" />
     <Compile Include="StreamExtend.cs" />

@@ -155,10 +155,21 @@ namespace Test {
             //var c = Math.Round(a, 1, MidpointRounding.AwayFromZero);
 
             //MessageBox.Show(((int)(a * 10) / 10.0).ToString("f1"));
-           JavaScriptSerializer serializer = new JavaScriptSerializer();
-            var cookie = new System.Net.CookieCollection();
-            var result = HttpAccessHelper.GetHttpPostJsonText("http://gw.fanhuan.com/common/PushPassthrough/?uids=11269864", Encoding.UTF8, new { module = "aaa", value = "d1" }.GetJSON(),null,out cookie, timeoutMillisecond: 30000);
-            MessageBox.Show(result);
+            //JavaScriptSerializer serializer = new JavaScriptSerializer();
+            // var cookie = new System.Net.CookieCollection();
+            // var result = HttpAccessHelper.GetHttpPostJsonText("http://gw.fanhuan.com/common/PushPassthrough/?uids=11269864", Encoding.UTF8, new { module = "aaa", value = "d1" }.GetJSON(),null,out cookie, timeoutMillisecond: 30000);
+            // MessageBox.Show(result);
+            var datas = new DYiYuanRelation().GetListV2(new YiYuanRelationSearch {
+                ActId = 777,
+                UserId = 224,
+                UserIds = new List<int> {
+                    1,2,4,5,6
+                },
+                TestParame="test",
+                RegDate=DateTime.Now
+            });
+            
+            this.txt_mw.Text = datas?.Count+"";
         }
 
 
