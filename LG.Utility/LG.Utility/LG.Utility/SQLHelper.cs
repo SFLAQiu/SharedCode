@@ -37,13 +37,10 @@ namespace LG.Utility {
         public static string GetWhere<T>(T obj, out List<SqlParameter> parames, string append = "", EWhereRelation appendRelation = EWhereRelation.AND) where T : class, new() {
             parames = new List<SqlParameter>();
             if (obj == null) return string.Empty;
-            var searchType = typeof(T);
-            var props = searchType.GetProperties();
-            if (props == null || props.Count() <= 0) return string.Empty;
             //获取查询条件
             parames = GetSqlParameters(obj);
             //获取WHERE SQL语句
-            var whereSql = GetWhereSql(props, obj);
+            var whereSql = GetWhereSql(obj);
             //附加查询条件
             if (append.IsNullOrWhiteSpace()) return whereSql;
             if (whereSql.IsNullOrWhiteSpace()) return append.GetString("");
@@ -52,7 +49,7 @@ namespace LG.Utility {
         /// <summary>
         /// 获取对象属性作为SQL参数
         /// </summary>
-        /// <param name="obj">参数对象</param>
+        /// <param name="obj">对象</param>
         /// <returns>参数集合</returns>
         public static List<SqlParameter> GetSqlParameters(object obj) {
             var parames = new List<SqlParameter>();
@@ -64,17 +61,15 @@ namespace LG.Utility {
                 if (value == null) continue;
                 //获取属性类型 DbType
                 var pType = p.PropertyType;
-                DbType dbType = DbType.Object;
+                //泛型目前就支持 可空类型 Nullable 类型
+                var isNullable = pType.IsGenericType && pType.GetGenericTypeDefinition() == typeof(Nullable<>);
+                if (pType.IsGenericType && !isNullable) continue;
+                if (isNullable) pType = pType.GetGenericArguments()[0];
+                var dbType = pType.ToDbType();
+                //枚举默认都是int类型
+                if (pType.IsEnum) dbType = DbType.Int32;
                 //空字符串不添加参数
                 if (dbType == DbType.String && value.GetString().IsNullOrWhiteSpace()) continue;
-                var isNullable = pType.IsGenericType && pType.GetGenericTypeDefinition() == typeof(Nullable<>);
-                //泛型目前就支持 Nullable 类型可以添加参数
-                if (pType.IsGenericType && !isNullable) continue;
-                if (isNullable) {
-                    dbType = pType.GetGenericArguments()[0].ToDbType();
-                } else {
-                    dbType = pType.ToDbType();
-                }
                 //sql参数添加
                 parames.Add(new SqlParameter($"@{p.Name}", value) {
                     DbType = dbType
@@ -82,16 +77,15 @@ namespace LG.Utility {
             }
             return parames;
         }
-
         /// <summary>
         /// 拼接Where条件
         /// </summary>
-        /// <param name="attr"></param>
-        /// <param name="fileName"></param>
-        /// <param name="val"></param>
+        /// <param name="obj">对象</param>
         /// <returns></returns>
-        private static string GetWhereSql(PropertyInfo[] props, object obj) {
-            if (props == null || obj == null) return string.Empty;
+        private static string GetWhereSql(object obj) {
+            if (obj == null) return string.Empty;
+            var props = obj.GetType().GetProperties();
+            if (props == null || props.Count() <= 0) return string.Empty;
             var joinIndex = 0;
             EWhereRelation lastRelation = EWhereRelation.AND;
             var whereSql = new StringBuilder();
