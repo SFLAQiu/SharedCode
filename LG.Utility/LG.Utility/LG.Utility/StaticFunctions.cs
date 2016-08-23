@@ -19,10 +19,10 @@ namespace LG.Utility {
         public static bool CreateFile(string filePath, byte[] fileContent) {
             try {
                 string fileFolder = System.IO.Path.GetDirectoryName(filePath);
-                if(!Directory.Exists(fileFolder))
+                if (!Directory.Exists(fileFolder))
                     Directory.CreateDirectory(fileFolder);
 
-                using(FileStream fs = new FileStream(filePath, FileMode.Create)) {
+                using (FileStream fs = new FileStream(filePath, FileMode.Create)) {
                     BinaryWriter br = new BinaryWriter(fs);
                     br.Write(fileContent);
                     br.Close();
@@ -67,10 +67,10 @@ namespace LG.Utility {
         /// <returns></returns>
         public static bool WriteStringToFile(string filePath, string content, bool append, System.Text.Encoding charset) {
             string folder = Path.GetDirectoryName(filePath);
-            if(!Directory.Exists(folder)) {
+            if (!Directory.Exists(folder)) {
                 Directory.CreateDirectory(folder);
             }
-            using(StreamWriter sw = new StreamWriter(filePath, append, charset)) {
+            using (StreamWriter sw = new StreamWriter(filePath, append, charset)) {
                 try {
                     sw.Write(content);
                     //写入换行符
@@ -97,10 +97,10 @@ namespace LG.Utility {
         /// <returns></returns>
         public static bool WriteStringToFileDoNotThrowEx(string filePath, string content, bool append, System.Text.Encoding charset) {
             string folder = Path.GetDirectoryName(filePath);
-            if(!Directory.Exists(folder)) {
+            if (!Directory.Exists(folder)) {
                 Directory.CreateDirectory(folder);
             }
-            using(StreamWriter sw = new StreamWriter(filePath, append, charset)) {
+            using (StreamWriter sw = new StreamWriter(filePath, append, charset)) {
                 try {
                     sw.Write(content);
                     //写入换行符
@@ -124,7 +124,7 @@ namespace LG.Utility {
         public static byte[] GetFileByte(string filePath) {
             try {
                 // 打开文件 
-                using(FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)) {
+                using (FileStream fileStream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read)) {
                     // 读取文件的 byte[] 
                     byte[] bytes = new byte[fileStream.Length];
                     fileStream.Read(bytes, 0, bytes.Length);
@@ -145,10 +145,10 @@ namespace LG.Utility {
         /// <param name="charset">编码</param>
         /// <returns></returns>
         public static string GetFileString(string filePath, System.Text.Encoding charset) {
-            if(!System.IO.File.Exists(filePath))
+            if (!System.IO.File.Exists(filePath))
                 return "";
 
-            using(StreamReader sr = new StreamReader(filePath, charset)) {
+            using (StreamReader sr = new StreamReader(filePath, charset)) {
                 try {
                     return sr.ReadToEnd();
                 } catch {
@@ -165,7 +165,7 @@ namespace LG.Utility {
         /// </summary>
         public static void ClearServerCache() {
             IDictionaryEnumerator CacheEnum = HttpContext.Current.Cache.GetEnumerator();
-            while(CacheEnum.MoveNext()) {
+            while (CacheEnum.MoveNext()) {
                 HttpContext.Current.Cache.Remove(CacheEnum.Key.ToString());
             }
         }
@@ -174,7 +174,7 @@ namespace LG.Utility {
         /// </summary>
         /// <param name="key"></param>
         public static void RemoveServerCache(string key) {
-            if(HttpContext.Current.Cache[key] != null) {
+            if (HttpContext.Current.Cache[key] != null) {
                 HttpContext.Current.Cache.Remove(key);
             }
         }
@@ -208,7 +208,7 @@ namespace LG.Utility {
         /// <param name="savePath">保存路径</param>
         /// <param name="saveFileName">保存图片名，不包括拓展名</param>
         /// <returns></returns>
-        public static bool SaveFile(string imgUrl, string savePath, string saveFileName,int width=0,int height=0) {
+        public static bool SaveFile(string imgUrl, string savePath, string saveFileName, int width = 0, int height = 0) {
             if (imgUrl.IsNullOrWhiteSpace()) return false;
             if (!Directory.Exists(savePath)) Directory.CreateDirectory(savePath);
             try {
@@ -228,11 +228,11 @@ namespace LG.Utility {
                     string saveFilePath = savePath + saveFileName + extension;
                     var newImg = System.Drawing.Image.FromStream(ms);
                     if (newImg == null) return false;
-                    if (width > 0 && newImg.Width>width) { 
-                        var newHeight=height;
-                        var ratio = (double)(width / (newImg.Width*1.0));
-                        if (newHeight <= 0) newHeight = (ratio * newImg.Height).GetInt(0,false);
-                        newImg = newImg.GetThumbnailImage(width, newHeight,null,IntPtr.Zero);
+                    if (width > 0 && newImg.Width > width) {
+                        var newHeight = height;
+                        var ratio = (double)(width / (newImg.Width * 1.0));
+                        if (newHeight <= 0) newHeight = (ratio * newImg.Height).GetInt(0, false);
+                        newImg = newImg.GetThumbnailImage(width, newHeight, null, IntPtr.Zero);
                     }
                     newImg.Save(saveFilePath);
                     webClient.Dispose();
@@ -279,7 +279,7 @@ namespace LG.Utility {
         /// </summary>
         public static string GetClientRealIpV2() {
             if (HttpContext.Current == null) return string.Empty;
-            var userHostAddress=string.Empty;
+            var userHostAddress = string.Empty;
             //如果客户端使用了代理服务器，则利用HTTP_X_FORWARDED_FOR找到客户端IP地址
             if (!HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].IsNullOrWhiteSpace())
                 userHostAddress = HttpContext.Current.Request.ServerVariables["HTTP_X_FORWARDED_FOR"].Split(',')[0].Trim();
@@ -313,9 +313,9 @@ namespace LG.Utility {
         /// <param name="str"></param>
         /// <param name="position">从1开始</param>
         /// <returns></returns>
-        public static bool GetPosStatus(string str,int position) {
+        public static bool GetPosStatus(string str, int position) {
             if (str.IsNullOrWhiteSpace()) return false;
-            return str.Substring(position-1, 1).GetInt(0,false)>0;
+            return str.Substring(position - 1, 1).GetInt(0, false) > 0;
         }
         /// <summary>
         /// 修改位状态
@@ -326,13 +326,20 @@ namespace LG.Utility {
         /// <returns></returns>
         public static string SetPosStatus(string str, int position, bool status) {
             if (str.IsNullOrWhiteSpace()) return str;
-            var indexStatus= GetPosStatus(str, position).GetInt(0,false)>0;
+            var indexStatus = GetPosStatus(str, position).GetInt(0, false) > 0;
             if (indexStatus.Equals(status)) return str;
             StringBuilder sb = new StringBuilder(str);
-            sb.Replace(indexStatus.GetInt(0,false).GetString(), status.GetInt(0, false).GetString(), position - 1, 1);
+            sb.Replace(indexStatus.GetInt(0, false).GetString(), status.GetInt(0, false).GetString(), position - 1, 1);
             return sb.GetString();
         }
-
+        /// <summary>
+        /// 修改位状态
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="position">从1开始</param>
+        /// <param name="status"></param>
+        /// <returns></returns>
+        public static void SetPosStatus(ref string str, int position, bool status) => str = SetPosStatus(str, position, status);
         /// <summary>
         /// 获取位状态字符串初始化
         /// <para>0.... length=0的个数，默认=8</para>

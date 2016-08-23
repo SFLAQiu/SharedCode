@@ -23,9 +23,9 @@ namespace  LG.Utility {
             }
         }
         //此处参数与JAVA版中有区别，因为使用的静态方法，所以不再传递HashAlgorithm alg参数
-        public HashGroupNodes(List<string> nodes, int nodeCopies) {
+        public HashGroupNodes(List<string> nodes, int nodeCopies=0) {
             ketamaNodes = new SortedList<long, string>();
-            numReps = nodeCopies;
+            if(nodeCopies>0) numReps = nodeCopies;
             //对所有节点，生成nCopies个虚拟结点
             foreach (string node in nodes) {
                 AddKetamaNodes(node);
