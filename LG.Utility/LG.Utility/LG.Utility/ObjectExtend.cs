@@ -128,9 +128,11 @@ namespace LG.Utility {
         /// </summary>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static string JSONSerializeV3(this Object obj) {
-            string json = JsonConvert.SerializeObject(obj, new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
-            return json;
+        public static string JSONSerializeV3(this Object obj,EFilterJson? eFilter=null,List<string> files=null) {
+            JsonSerializerSettings jsetting = new JsonSerializerSettings();
+            if (eFilter.HasValue) jsetting.ContractResolver = new FilterContractResolver(files, eFilter.Value);
+            jsetting.Converters.Add(new IsoDateTimeConverter() { DateTimeFormat = "yyyy-MM-dd HH:mm:ss" });
+            return JsonConvert.SerializeObject(obj, Formatting.Indented, jsetting);
         }
         #endregion
         /// <summary>
